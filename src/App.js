@@ -62,6 +62,27 @@ function App() {
     });
     
   }
+
+  const handleBur=(e)=>{
+  console.log(e.target.name,e.target.value)
+ if (e.target.name==='email'){
+
+  const isEmailValid=/\S+@\S+\.\S+/.test(e.target.value);
+  console.log(isEmailValid)
+ }
+   if (e.target.name==='password'){
+  
+    
+ }
+
+  }
+
+  const handlesubmit=()=>{
+   
+
+
+  }
+
   return (
     <div >
      {
@@ -81,7 +102,16 @@ function App() {
       <p>photo: <img src={user.photo} alt=""></img> </p>
       </div>
     }
+  
+    <h1>Our Own Autentification</h1>
+     <form onsubmit={handlesubmit}>
+     <input type="text" name="email" onChange={handleBur} placeholder ="your name" reqiured /> <br/>
+     <input type="password"  name="password" onChange={handleBur}  placeholder= "Your password" required/><br/>
+     
+      <input type ="submit" value ="submit"/>
 
+     </form>
+      
     </div>
   );
 }
