@@ -64,22 +64,44 @@ function App() {
   }
 
   const handleBur=(e)=>{
-  console.log(e.target.name,e.target.value)
+  let isFieldValid=true;
  if (e.target.name==='email'){
 
-  const isEmailValid=/\S+@\S+\.\S+/.test(e.target.value);
-  console.log(isEmailValid)
+  isFieldValid=/\S+@\S+\.\S+/.test(e.target.value);
+  
  }
    if (e.target.name==='password'){
+    isFieldValid=e.target.value.length>6;
   
-    
+ }
+ if (isFieldValid){
+  const newUserInfo={...user}
+  newUserInfo[e.target.name]=e.target.value;
+  setUser(newUserInfo);
+
  }
 
   }
 
-  const handlesubmit=()=>{
+  const handlesubmit=(e)=>{
+   if(user.email && user.password){
    
+    firebase.auth().createUserWithEmailAndPassword(user.email,user.password)
+    .then(res=>{
+      console.log(res)
+    })
+    .catch(function(error) {
+     
+      const newUserInfo={...user};
+      newUserInfo.error=error.meassage;
+      setUser(newUserInfo)
+      
+      console.log(newUserInfo);
+    });
 
+   }
+   
+   e.preventDefault();
 
   }
 
@@ -104,7 +126,11 @@ function App() {
     }
   
     <h1>Our Own Autentification</h1>
-     <form onsubmit={handlesubmit}>
+    {/* <p>Name:{user.name}</p>
+    <p>email:{user.email}</p>
+    <p>password:{user.password}</p> */}
+     <form onSubmit={handlesubmit}>
+       <input type="text" name="name" onChange={handleBur} placeholder="your name"/> <br/>
      <input type="text" name="email" onChange={handleBur} placeholder ="your name" reqiured /> <br/>
      <input type="password"  name="password" onChange={handleBur}  placeholder= "Your password" required/><br/>
      
